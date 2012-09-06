@@ -7,6 +7,9 @@
 #Path to Murmur.ice
 iceslice='/usr/share/Ice/slice/Murmur.ice'
 
+#Includepath for Ice, this is default for Debian
+iceincludepath="/usr/share/Ice/slice"
+
 #Murmur-Port (not needed to work, only for display purposes)
 serverport=64738
 
@@ -24,7 +27,7 @@ icesecretread="secureme"
 messagesizemax="65535"
 
 import Ice, sys
-Ice.loadSlice("--all -I/usr/share/Ice/slice %s" % iceslice)
+Ice.loadSlice("--all -I%s %s" % (iceincludepath, iceslice))
 
 props = Ice.createProperties([])
 props.setProperty("Ice.MessageSizeMax", str(messagesizemax))
