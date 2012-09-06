@@ -18,8 +18,8 @@ iceport=6502
 
 #Ice Password to get read access.
 #If there is no such var in your murmur.ini, this can have any value.
-#You can also use the icesecretwrite of your server.
-icesecretread="secureme"
+#You can use the values of icesecret, icesecretread or icesecretwrite in your murmur.ini
+icesecret="secureme"
 
 #MessageSizeMax; increase this value, if you get a MemoryLimitException.
 # Also check this value in murmur.ini of your Mumble-Server.
@@ -36,7 +36,7 @@ id = Ice.InitializationData()
 id.properties = props
 
 ice = Ice.initialize(id)
-ice.getImplicitContext().put("secret", icesecretread)
+ice.getImplicitContext().put("secret", icesecret)
 
 import Murmur
 
