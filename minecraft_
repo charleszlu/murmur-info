@@ -1,6 +1,7 @@
 #!/bin/bash
  
 LC_LANG=C
+LC_ALL=C
 MC_PORT=${0##*_}
  
 if [ "$1" = "config" ]
