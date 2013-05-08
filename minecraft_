@@ -1,6 +1,6 @@
 #!/bin/bash
  
-LC_LANG=C
+LANG=C
 LC_ALL=C
 MC_PORT=${0##*_}
  
