@@ -3,7 +3,8 @@ Several plugins for [MUNIN](http://munin-monitoring.org/).
 
 ## minecraft_
 Description: Shows user count and RAM usage.
-Website: http://wiki.natenom.name/minecraft/munin-plugin
+
+[Project page (German)](http://wiki.natenom.name/minecraft/munin-plugin)
 
 ### Installation
 As the script needs root rights to work correctly, you must add following
@@ -18,9 +19,15 @@ If your server is running on the default port, do as root (or with sudo):
 ```
 
 ## murmur-munin.py
-Munin plugin to query a Mumble-Server (Murmur).
+A MUNIN plugin to query a Mumble-Server (Murmur).
 
-[Project Page (German)](http://wiki.natenom.name/mumble/tools/munin)
+Available data:
+* users (all)
+* users (not authenticated)
+* server uptime in days
+* ban count
+
+[Project page (German)](http://wiki.natenom.name/mumble/tools/munin)
 
 ### Features
 * Support to set [messagesizemax](http://wiki.natenom.name/mumble/benutzerhandbuch/murmur/messagesizemax) value.
