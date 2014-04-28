@@ -27,7 +27,8 @@ Available data:
 * server uptime in days
 * ban count
 
-[Project page (German)](http://wiki.natenom.name/mumble/tools/munin)
+Documentation (English): http://w.natenom.name/wiki/Munin_plugin_for_a_Murmur_%28Mumble-Server%29
+Documentation (German): http://wiki.natenom.name/mumble/tools/munin
 
 ### Features
 * Support to set [messagesizemax](http://wiki.natenom.name/mumble/benutzerhandbuch/murmur/messagesizemax) value.

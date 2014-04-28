@@ -12,7 +12,7 @@ then
     esac
 fi
 
-TEMPERATURE=$(/usr/bin/nvidia-settings -q GPUCoreTemp | sed -nr -e 's/.*([0-9]{2})\./\1/p'|uniq)
+TEMPERATURE=$(/usr/bin/nvidia-settings -c 0.0 -q GPUCoreTemp | sed -nr -e 's/.*([0-9]{2})\./\1/p'|uniq)
 #PERF_LEVEL=""
 echo "temp.value $TEMPERATURE"
 
