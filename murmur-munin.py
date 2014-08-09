@@ -122,11 +122,11 @@ if (sys.argv[1:]):
     print "chancount.value %.1f" % (len(server.getChannels())/10)
     ice.shutdown()
     sys.exit(0) 
-  elif (sys.argv[1] == "chancount"):
+  elif (sys.argv[1] == "bancount"):
     print "bancount.value %i" % (len(server.getBans()))
     ice.shutdown()
     sys.exit(0) 
-  elif (sys.argv[1] == "chancount"):
+  elif (sys.argv[1] == "usersnotauth"):
     print "usersnotauth.value %i" % (usersnotauth)
     ice.shutdown()
     sys.exit(0) 
