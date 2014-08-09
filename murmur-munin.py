@@ -143,11 +143,11 @@ if (sys.argv[1:]):
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "uptime"):
-    print "uptime.value %.2f" % (float(meta.getUptime())/60/60/24)
+    print "uptime.value %.2f" % (float(meta.getUptime()))
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "chancount"):
-    print "chancount.value %.1f" % (len(server.getChannels())/10)
+    print "chancount.value %.1f" % (len(server.getChannels())-1)
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "bancount"):
