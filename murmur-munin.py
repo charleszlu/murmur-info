@@ -108,6 +108,30 @@ for key in users.keys():
   if (users[key].userid == -1):
     usersnotauth+=1
 
+# more argument parsing for individual stats
+if (sys.argv[1:]):
+  if (sys.argv[1] == "users"):
+    print "users.value %i" % (len(users))
+    ice.shutdown()
+    sys.exit(0) 
+  elif (sys.argv[1] == "uptime"):
+    print "uptime.value %.2f" % (float(meta.getUptime())/60/60/24)
+    ice.shutdown()
+    sys.exit(0) 
+  elif (sys.argv[1] == "chancount"):
+    print "chancount.value %.1f" % (len(server.getChannels())/10)
+    ice.shutdown()
+    sys.exit(0) 
+  elif (sys.argv[1] == "chancount"):
+    print "bancount.value %i" % (len(server.getBans()))
+    ice.shutdown()
+    sys.exit(0) 
+  elif (sys.argv[1] == "chancount"):
+    print "usersnotauth.value %i" % (usersnotauth)
+    ice.shutdown()
+    sys.exit(0) 
+
+# if no command line argument is passed in
 print "users.value %i" % (len(users))
 print "uptime.value %.2f" % (float(meta.getUptime())/60/60/24)
 print "chancount.value %.1f" % (len(server.getChannels())/10)
