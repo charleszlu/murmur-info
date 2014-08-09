@@ -80,6 +80,7 @@ if (sys.argv[1:]):
     print 'uptime.label Uptime in days'
     print 'chancount.label Channelcount/10'
     print 'bancount.label Bans on server'
+    print "state.label Mumble server status"
     sys.exit(0)
 
 
@@ -91,6 +92,7 @@ except Ice.ConnectionRefusedException:
     print "chancount.value 0"
     print "bancount.value 0"
     print "usersnotauth.value 0"
+    print "state.value 0"
     ice.shutdown()
     sys.exit(1)
 
@@ -129,13 +131,14 @@ if (sys.argv[1:]):
   elif (sys.argv[1] == "chancount"):
     print "usersnotauth.value %i" % (usersnotauth)
     ice.shutdown()
-    sys.exit(0) 
+    sys.exit(0)
 
 # if no command line argument is passed in
 print "users.value %i" % (len(users))
-print "uptime.value %.2f" % (float(meta.getUptime())/60/60/24)
-print "chancount.value %.1f" % (len(server.getChannels())/10)
+print "uptime.value %i" % (float(meta.getUptime()))
+print "chancount.value %i" % (len(server.getChannels())-1)
 print "bancount.value %i" % (len(server.getBans()))
 print "usersnotauth.value %i" % (usersnotauth)
-  
+print "state.value 1"
+
 ice.shutdown()
