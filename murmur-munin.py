@@ -83,7 +83,17 @@ if (sys.argv[1:]):
     sys.exit(0)
 
 
-meta = Murmur.MetaPrx.checkedCast(ice.stringToProxy("Meta:tcp -h 127.0.0.1 -p %s" % (iceport)))
+try:
+    meta = Murmur.MetaPrx.checkedCast(ice.stringToProxy("Meta:tcp -h 127.0.0.1 -p %s" % (iceport)))
+except Ice.ConnectionRefusedException:
+    print "users.value 0"
+    print "uptime.value 0"
+    print "chancount.value 0"
+    print "bancount.value 0"
+    print "usersnotauth.value 0"
+    ice.shutdown()
+    sys.exit(1)
+
 try:
     server=meta.getServer(1)
 except Murmur.InvalidSecretException: 
