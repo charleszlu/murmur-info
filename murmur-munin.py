@@ -87,6 +87,32 @@ if (sys.argv[1:]):
 try:
     meta = Murmur.MetaPrx.checkedCast(ice.stringToProxy("Meta:tcp -h 127.0.0.1 -p %s" % (iceport)))
 except Ice.ConnectionRefusedException:
+    if (sys.argv[1:]):
+      if (sys.argv[1] == "users"):
+        print "users.value 0"
+        ice.shutdown()
+        sys.exit(1) 
+      elif (sys.argv[1] == "uptime"):
+        print "uptime.value 0"
+        ice.shutdown()
+        sys.exit(1) 
+      elif (sys.argv[1] == "chancount"):
+        print "chancount.value 0"
+        ice.shutdown()
+        sys.exit(1) 
+      elif (sys.argv[1] == "bancount"):
+        print "bancount.value 0"
+        ice.shutdown()
+        sys.exit(1) 
+      elif (sys.argv[1] == "usersnotauth"):
+        print "usersnotauth.value 0"
+        ice.shutdown()
+        sys.exit(1)
+      elif (sys.argv[1] == "state"):
+        print "state.value 0"
+        ice.shutdown()
+        sys.exit(1)
+  
     print "users.value 0"
     print "uptime.value 0"
     print "chancount.value 0"
@@ -124,12 +150,16 @@ if (sys.argv[1:]):
     print "chancount.value %.1f" % (len(server.getChannels())/10)
     ice.shutdown()
     sys.exit(0) 
-  elif (sys.argv[1] == "chancount"):
+  elif (sys.argv[1] == "bancount"):
     print "bancount.value %i" % (len(server.getBans()))
     ice.shutdown()
     sys.exit(0) 
-  elif (sys.argv[1] == "chancount"):
+  elif (sys.argv[1] == "usersnotauth"):
     print "usersnotauth.value %i" % (usersnotauth)
+    ice.shutdown()
+    sys.exit(0)
+  elif (sys.argv[1] == "state"):
+    print "state.value 1"
     ice.shutdown()
     sys.exit(0)
 
