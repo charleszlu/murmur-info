@@ -50,12 +50,16 @@ iceport=6502
 #Ice Password to get read access.
 #If there is no such var in your murmur.ini, this can have any value.
 #You can use the values of icesecret, icesecretread or icesecretwrite in your murmur.ini
-icesecret="secureme"
+icesecret="Ac8unPPK7u"
 
 #MessageSizeMax; increase this value, if you get a MemoryLimitException.
 # Also check this value in murmur.ini of your Mumble-Server.
 # This value is being interpreted in kibiBytes.
 messagesizemax="65535"
+
+#Exclude names containing these keywords from being counted as users.
+#Useful for excluding bots 
+exclude_keywords=["Delay","BBUBot","PeiPeiBot"]
 
 import Ice, sys
 Ice.loadSlice("--all -I%s %s" % (iceincludepath, iceslice))
@@ -136,10 +140,17 @@ for key in users.keys():
   if (users[key].userid == -1):
     usersnotauth+=1
 
+#count the number of users to exclude
+excludedusers=0
+for key in users.keys():
+    for name_keyword in exclude_keywords:
+        if (name_keyword in users[key].name):
+            excludedusers+=1
+    
 # more argument parsing for individual stats
 if (sys.argv[1:]):
   if (sys.argv[1] == "users"):
-    print "users.value %i" % (len(users))
+    print "users.value %i" % (len(users)-excludedusers)
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "uptime"):
@@ -155,7 +166,7 @@ if (sys.argv[1:]):
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "usersnotauth"):
-    print "usersnotauth.value %i" % (usersnotauth)
+    print "usersnotauth.value %i" % (usersnotauth-excludedusers)
     ice.shutdown()
     sys.exit(0)
   elif (sys.argv[1] == "state"):
@@ -164,11 +175,11 @@ if (sys.argv[1:]):
     sys.exit(0)
 
 # if no command line argument is passed in
-print "users.value %i" % (len(users))
+print "users.value %i" % (len(users)-excludedusers)
 print "uptime.value %i" % (float(meta.getUptime()))
 print "chancount.value %i" % (len(server.getChannels())-1)
 print "bancount.value %i" % (len(server.getBans()))
-print "usersnotauth.value %i" % (usersnotauth)
+print "usersnotauth.value %i" % (usersnotauth-excludedusers)
 print "state.value 1"
 
 ice.shutdown()
