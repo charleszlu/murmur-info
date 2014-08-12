@@ -134,18 +134,22 @@ except Murmur.InvalidSecretException:
     sys.exit(1)
 
 #count users
-usersnotauth=0
 users=server.getUsers()
-for key in users.keys():
-  if (users[key].userid == -1):
-    usersnotauth+=1
 
 #count the number of users to exclude
+#also count not authenticated users (who are not excluded)
 excludedusers=0
+usersnotauth=0
+notexludedflag=0
 for key in users.keys():
     for name_keyword in exclude_keywords:
         if (name_keyword in users[key].name):
             excludedusers+=1
+        else:
+            notexludedflag=1
+    if (users[key].userid == -1 and notexludedflag):
+        usersnotauth+=1
+    notexludedflag=0
     
 # more argument parsing for individual stats
 if (sys.argv[1:]):
@@ -166,7 +170,7 @@ if (sys.argv[1:]):
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "usersnotauth"):
-    print "usersnotauth.value %i" % (usersnotauth-excludedusers)
+    print "usersnotauth.value %i" % (usersnotauth)
     ice.shutdown()
     sys.exit(0)
   elif (sys.argv[1] == "state"):
