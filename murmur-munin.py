@@ -79,12 +79,13 @@ if (sys.argv[1:]):
   if (sys.argv[1] == "config"):
     print 'graph_title Murmur (Port %s)' % (serverport)
     print 'graph_vlabel Count'
-    print 'users.label Users (All)'
+    print 'users.label Users'
     print 'usersnotauth.label Users (Not authenticated)'
     print 'uptime.label Uptime in days'
-    print 'chancount.label Channelcount/10'
+    print 'chancount.label Channelcount'
     print 'bancount.label Bans on server'
     print "state.label Mumble server status"
+    print "version.label Mumble server version"
     sys.exit(0)
 
 
@@ -116,6 +117,10 @@ except Ice.ConnectionRefusedException:
         print "state.value 0"
         ice.shutdown()
         sys.exit(1)
+      elif (sys.argv[1] == "version"):
+        print "version.value 0"
+        ice.shutdown()
+        sys.exit(1)
   
     print "users.value 0"
     print "uptime.value 0"
@@ -123,6 +128,7 @@ except Ice.ConnectionRefusedException:
     print "bancount.value 0"
     print "usersnotauth.value 0"
     print "state.value 0"
+    print "version.value 0"
     ice.shutdown()
     sys.exit(1)
 
@@ -150,7 +156,10 @@ for key in users.keys():
     if (users[key].userid == -1 and notexludedflag):
         usersnotauth+=1
     notexludedflag=0
-    
+
+#get the version number of the server
+mumbleversion=''
+dummy=''
 # more argument parsing for individual stats
 if (sys.argv[1:]):
   if (sys.argv[1] == "users"):
@@ -158,11 +167,11 @@ if (sys.argv[1:]):
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "uptime"):
-    print "uptime.value %.2f" % (float(meta.getUptime()))
+    print "uptime.value %i" % (float(meta.getUptime()))
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "chancount"):
-    print "chancount.value %.1f" % (len(server.getChannels())-1)
+    print "chancount.value %i" % (len(server.getChannels())-1)
     ice.shutdown()
     sys.exit(0) 
   elif (sys.argv[1] == "bancount"):
@@ -177,7 +186,11 @@ if (sys.argv[1:]):
     print "state.value 1"
     ice.shutdown()
     sys.exit(0)
-
+  elif (sys.argv[1] == "version"):
+    print "version.value %i.%i.%i" % (meta.getVersion()[0],meta.getVersion()[1],meta.getVersion()[2])
+    ice.shutdown()
+    sys.exit(0)
+    # TODO
 # if no command line argument is passed in
 print "users.value %i" % (len(users)-excludedusers)
 print "uptime.value %i" % (float(meta.getUptime()))
@@ -185,5 +198,6 @@ print "chancount.value %i" % (len(server.getChannels())-1)
 print "bancount.value %i" % (len(server.getBans()))
 print "usersnotauth.value %i" % (usersnotauth-excludedusers)
 print "state.value 1"
+print "version.value %i.%i.%i" % (meta.getVersion()[0],meta.getVersion()[1],meta.getVersion()[2])
 
 ice.shutdown()
