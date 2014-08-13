@@ -146,16 +146,15 @@ users=server.getUsers()
 #also count not authenticated users (who are not excluded)
 excludedusers=0
 usersnotauth=0
-notexludedflag=0
+exluded=False
 for key in users.keys():
     for name_keyword in exclude_keywords:
         if (name_keyword in users[key].name):
             excludedusers+=1
-        else:
-            notexludedflag=1
-    if (users[key].userid == -1 and notexludedflag):
+            exluded=True 
+    if (users[key].userid == -1 and not exluded):
         usersnotauth+=1
-    notexludedflag=0
+    exluded=False
 
 #get the version number of the server
 mumbleversion=''
@@ -196,7 +195,7 @@ print "users.value %i" % (len(users)-excludedusers)
 print "uptime.value %i" % (float(meta.getUptime()))
 print "chancount.value %i" % (len(server.getChannels())-1)
 print "bancount.value %i" % (len(server.getBans()))
-print "usersnotauth.value %i" % (usersnotauth-excludedusers)
+print "usersnotauth.value %i" % (usersnotauth)
 print "state.value 1"
 print "version.value %i.%i.%i" % (meta.getVersion()[0],meta.getVersion()[1],meta.getVersion()[2])
 
