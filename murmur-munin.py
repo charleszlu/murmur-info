@@ -155,7 +155,7 @@ for key in users.keys():
     if (users[key].userid == -1 and not exluded):
         usersnotauth+=1
     exluded=False
-
+    
 #get the version number of the server
 mumbleversion=''
 dummy=''
@@ -189,7 +189,16 @@ if (sys.argv[1:]):
     print "version.value %i.%i.%i" % (meta.getVersion()[0],meta.getVersion()[1],meta.getVersion()[2])
     ice.shutdown()
     sys.exit(0)
+  elif (sys.argv[1] == "useronline" and len(sys.argv) > 2):
+    for key in users.keys():
+        if(sys.argv[2].lower() == users[key].name.lower()):
+            print "useronline.value 1"
+        else:
+            print "useronline.value 0"
+        ice.shutdown()
+        sys.exit(0)
     # TODO
+    
 # if no command line argument is passed in
 print "users.value %i" % (len(users)-excludedusers)
 print "uptime.value %i" % (float(meta.getUptime()))
