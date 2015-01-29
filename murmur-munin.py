@@ -190,13 +190,16 @@ if (sys.argv[1:]):
     ice.shutdown()
     sys.exit(0)
   elif (sys.argv[1] == "useronline" and len(sys.argv) > 2):
+    user_online_flag = False
     for key in users.keys():
         if(sys.argv[2].lower() == users[key].name.lower()):
-            print "useronline.value 1"
-        else:
-            print "useronline.value 0"
-        ice.shutdown()
-        sys.exit(0)
+            user_online_flag = True
+    if (user_online_flag):
+        print "useronline.value 1"
+    else:
+        print "useronline.value 0"
+    ice.shutdown()
+    sys.exit(0)
     # TODO
     
 # if no command line argument is passed in
