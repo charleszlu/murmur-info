@@ -1,6 +1,6 @@
 FROM goozler/zeroc_ice_python
 
-RUN apk --update add --upgrade --no-cache openssh bash
+RUN apk --update add --upgrade --no-cache openssh bash tzdata
 
 COPY entrypoint.sh /entrypoint.sh
 COPY Murmur.ice /murmur-info/Murmur.ice
