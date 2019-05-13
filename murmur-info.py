@@ -34,7 +34,7 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE. 
-import Ice, sys, os, ast
+import Ice, sys, os
 
 class MurmurIce:
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     ice_port = os.getenv('MURMUR_ICE_PORT', 6502)
     murmur_icesecreatread = os.getenv('MURMUR_ICE_SECRET')
     message_size_max = os.getenv('MURMUR_ICE_MSG_SIZE_MAX', 65535)
-    exclude_keywords = ast.literal_eval('['+os.getenv('EXCLUDE_KEYWORDS', '')+']')
+    exclude_keywords = os.getenv('EXCLUDE_KEYWORDS', '').split(',')
 
     if not murmur_ice_path:
         raise RuntimeError('MURMUR_ICE_PATH environment variable is not set!')
