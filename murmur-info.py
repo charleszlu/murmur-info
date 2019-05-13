@@ -96,7 +96,7 @@ class MurmurIce:
         # also count not authenticated users (who are not excluded)
         for user in self.users.values():
             for keyword in self.exclude_keywords:
-                if str(keyword).lower() in user.name.lower():
+                if keyword and str(keyword).lower() in user.name.lower():
                     self.excludedusers += 1
                     break
             else:
