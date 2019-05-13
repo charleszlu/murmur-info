@@ -34,15 +34,15 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE. 
-import Ice, sys, os
+import Ice, sys, os, ast
 
 class MurmurIce:
 
-    def __init__(self, murmur_ice_path, murmur_host, murmur_icesecreatread, ice_port=6502, message_size_max=65535):
+    def __init__(self, murmur_ice_path, murmur_host, murmur_icesecreatread, ice_port=6502, message_size_max=65535, exclude_keywords=[]):
 
         # Exclude names containing these keywords from being counted as users.
         # Useful for excluding bots 
-        self.exclude_keywords=["Delay","BBUBot","PeiPeiBot"]
+        self.exclude_keywords=exclude_keywords
 
         # Path to Slice and Murmur.ice
         Ice.loadSlice(f"--all -I{Ice.getSliceDir()} {murmur_ice_path}")
@@ -96,7 +96,7 @@ class MurmurIce:
         # also count not authenticated users (who are not excluded)
         for user in self.users.values():
             for keyword in self.exclude_keywords:
-                if keyword in user.name:
+                if str(keyword).lower() in user.name.lower():
                     self.excludedusers += 1
                     break
             else:
@@ -153,10 +153,11 @@ if __name__ == "__main__":
     ice_port = os.getenv('MURMUR_ICE_PORT', 6502)
     murmur_icesecreatread = os.getenv('MURMUR_ICE_SECRET')
     message_size_max = os.getenv('MURMUR_ICE_MSG_SIZE_MAX', 65535)
+    exclude_keywords = ast.literal_eval('['+os.getenv('EXCLUDE_KEYWORDS', '')+']')
 
-    if murmur_ice_path is None:
+    if not murmur_ice_path:
         raise RuntimeError('MURMUR_ICE_PATH environment variable is not set!')
-    if murmur_icesecreatread is None:
+    if not murmur_icesecreatread:
         raise RuntimeError('MURMUR_ICE_SECRET environment variable is not set!')
 
     murmur = MurmurIce(
@@ -165,6 +166,7 @@ if __name__ == "__main__":
         murmur_icesecreatread=murmur_icesecreatread,
         ice_port=ice_port,
         message_size_max=message_size_max,
+        exclude_keywords=exclude_keywords
     )
 
     # Usage
