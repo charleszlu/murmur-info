@@ -6,29 +6,28 @@ ARG ICE_VERSION=3.7.2
 
 RUN apk add --no-cache \
     libstdc++ \
-    openssl-dev \
-	openssh \
-	bash \
-	tzdata && \
-	apk add --no-cache --virtual .build-deps \
+    openssh \
+    bash && \
+    apk add --no-cache --virtual .build-deps \
     bzip2-dev \
+    openssl-dev \
     g++ && \
-	pip install --no-cache-dir --global-option=build_ext --global-option="-D__USE_UNIX98" zeroc-ice==${ICE_VERSION} && \
-	apk del .build-deps && \
-	find /usr/local -depth \
-       \( \
-         \( -type d -a \( -name test -o -name tests \) \) \
-         -o \
-         \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
-       \) -exec rm -rf '{}' +;
+    pip install --no-cache-dir --global-option=build_ext --global-option="-D__USE_UNIX98" zeroc-ice==${ICE_VERSION} && \
+    apk del .build-deps && \
+    find /usr/local -depth \
+        \( \
+          \( -type d -a \( -name test -o -name tests \) \) \
+          -o \
+          \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+        \) -exec rm -rf '{}' +;
 
 COPY entrypoint.sh /entrypoint.sh
 COPY Murmur.ice /murmur-info/Murmur.ice
 COPY murmur-info.py /murmur-info/murmur-info.py
 
 RUN chmod +x /entrypoint.sh \
-	&& mkdir -p /root/.ssh \
-	&& rm -rf /var/cache/apk/* /tmp/*
+    && mkdir -p /root/.ssh \
+    && rm -rf /var/cache/apk/* /tmp/*
 
 ENV ROOT_PASSWORD root
 ENV KEYPAIR_LOGIN false
